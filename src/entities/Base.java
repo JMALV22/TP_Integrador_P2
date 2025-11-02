@@ -1,4 +1,4 @@
-package entidades;
+package entities;
 
 public abstract class Base {
     private Long id;             // Identificador único
@@ -21,7 +21,7 @@ public abstract class Base {
         this.id = id;
     }
 
-    public Boolean getEliminado() {
+    public Boolean isEliminado() {
         return eliminado;
     }
 
