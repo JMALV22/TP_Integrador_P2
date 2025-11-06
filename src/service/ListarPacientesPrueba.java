@@ -10,7 +10,7 @@ import java.sql.Date;   // para java.sql.Date
 public class ListarPacientesPrueba {
     public static void main(String[] args) {
 
-        // Ahora traemos fecha_nacimiento también
+
         String sql = "SELECT id_paciente, nombre, apellido, dni, fecha_nacimiento " +
                 "FROM paciente " +
                 "WHERE eliminado = FALSE " +
@@ -20,7 +20,7 @@ public class ListarPacientesPrueba {
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
-            System.out.println("📋 Lista de pacientes:");
+            System.out.println(" Lista de pacientes:");
             System.out.println("-----------------------------");
 
             while (rs.next()) {

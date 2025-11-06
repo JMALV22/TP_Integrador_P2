@@ -1,11 +1,11 @@
 package entities;
 
 public abstract class Base {
-    private Long id;             // Identificador único
-    private Boolean eliminado;   // Baja lógica
+    private Long id;
+    private Boolean eliminado;   // baja logica
 
     public Base() {
-        this.eliminado = false;  // por defecto, no eliminado
+        this.eliminado = false;
     }
 
     public Base(Long id, Boolean eliminado) {
@@ -30,7 +30,7 @@ public abstract class Base {
         this.eliminado = eliminado;
     }
 
-    // Métodos útiles
+   // metodos
     public void eliminar() {
         this.eliminado = true;
     }
