@@ -9,8 +9,6 @@ import java.util.Objects;
  *
  * Relación con HistoriaClinica:
  * - Una Persona puede tener 0 o 1 HistoriaClinica
- * - Composicion 1 a 1, si la persona es eliminada del registro, su historia 
- *   clinica se elimina
 **/
 
 public class Paciente extends Base{
@@ -35,11 +33,9 @@ public class Paciente extends Base{
         this.apellido = apellido;
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
-        this.historiaClinica = new HistoriaClinica();  // Composicion 1 a 1.
     }
 
-    public Paciente() {
-    }
+    public Paciente() {}
 
     public String getNombre() {
         return nombre;
@@ -64,7 +60,24 @@ public class Paciente extends Base{
     public HistoriaClinica getHistoriaClinica() {
         return historiaClinica;
     }
-    
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+
     @Override
     public String toString() {
         return "Paciente{" +

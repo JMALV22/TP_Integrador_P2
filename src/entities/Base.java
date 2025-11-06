@@ -24,6 +24,7 @@ public abstract class Base {
     public Boolean isEliminado() {
         return eliminado;
     }
+    public Boolean getEliminado() { return eliminado; }
 
     public void setEliminado(Boolean eliminado) {
         this.eliminado = eliminado;
