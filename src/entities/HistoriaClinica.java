@@ -25,7 +25,7 @@ public class HistoriaClinica extends Base{
      * @param medicacionActual  Medicacion que este tomando actualmente
      * @param observaciones     Observaciones
      * @param id                ID del paciente en la BD
-     * @param eliminado         Eliminado o no en base de datos
+     * @param eliminado         Eliminado o no en base de datos (Eliminado Logico)
      */
     public HistoriaClinica(String nroHistoria, GrupoSanguineo grupoSanguineo, String antecedentes,
                            String medicacionActual, String observaciones, Long id, Boolean eliminado) {
@@ -38,6 +38,10 @@ public class HistoriaClinica extends Base{
     }
 
     public HistoriaClinica() {
+    }
+
+    public String getNroHistoria() {
+        return nroHistoria;
     }
 
     public GrupoSanguineo getGrupoSanguineo() {
