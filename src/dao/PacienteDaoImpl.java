@@ -29,9 +29,9 @@ public class PacienteDaoImpl implements PacienteDao {
                 p.setApellido(rs.getString("apellido"));
                 p.setDni(rs.getString("dni"));
 
-                Date f = rs.getDate("fecha_nacimiento");
+                Date f = rs.getDate("fecha_nacimiento"); // convierte date de SQL a date de Java
                 if (f != null) {
-                    p.setFechaNacimiento(f.toLocalDate());
+                    p.setFechaNacimiento(f.toLocalDate()); // evita nullpointerexept
                 }
 
                 p.setEliminado(rs.getBoolean("eliminado"));
@@ -43,7 +43,7 @@ public class PacienteDaoImpl implements PacienteDao {
         return lista;
     }
 
-    // Metodos heredados obligatoriamente, todavia sin implementar
+    // metodos heredados obligatoriamente, todavia sin implementar
     @Override
     public boolean guardar(Paciente entity, Connection con) throws SQLException {
         throw new UnsupportedOperationException("guardar() aún no implementado");
@@ -69,8 +69,8 @@ public class PacienteDaoImpl implements PacienteDao {
                     p.setApellido(rs.getString("apellido"));
                     p.setDni(rs.getString("dni"));
 
-                    Date f = rs.getDate("fecha_nacimiento");
-                    if (f != null) {
+                    Date f = rs.getDate("fecha_nacimiento"); // convierte date de SQL a date de Java
+                    if (f != null) { // evita nullpointerexept
                         p.setFechaNacimiento(f.toLocalDate()); // se convierte a localdate
                     }
 
@@ -92,17 +92,66 @@ public class PacienteDaoImpl implements PacienteDao {
 
     @Override
     public boolean eliminar(Long id, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("eliminar() (baja lógica) aún no implementado");
+        throw new UnsupportedOperationException("eliminar() aún no implementado");
     }
 
     @Override
-    public Paciente obtenerPorDni(String dni, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("obtenerPorDni() aún no implementado");
+    public Paciente obtenerPorDni(String dni, Connection con) throws SQLException { // casi igual a obtporId
+        String sql = "SELECT id_paciente, nombre, apellido, dni, fecha_nacimiento, eliminado " +
+                "FROM paciente " +
+                "WHERE dni = ? AND eliminado = FALSE";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, dni);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Paciente p = new Paciente();
+                    p.setId(rs.getLong("id_paciente"));
+                    p.setNombre(rs.getString("nombre"));
+                    p.setApellido(rs.getString("apellido"));
+                    p.setDni(rs.getString("dni"));
+
+                    java.sql.Date f = rs.getDate("fecha_nacimiento"); // convierte date de SQL a date de Java
+                    if (f != null) p.setFechaNacimiento(f.toLocalDate()); // evita nullpointerexept
+
+                    p.setEliminado(rs.getBoolean("eliminado")); // por si esta eliminado
+                    return p;
+                }
+            }
+        }
+        return null; // si no existe o esta eliminado retorna null
     }
 
     @Override
     public List<Paciente> buscarPorApellido(String apellido, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("buscarPorApellido() aún no implementado");
+        List<Paciente> pacientes = new ArrayList<>(); // lista porque puede haber mas de un paciente con = apellido
+
+        String sql = "SELECT id_paciente, nombre, apellido, dni, fecha_nacimiento, eliminado " +
+                "FROM paciente " +
+                "WHERE apellido LIKE ? AND eliminado = FALSE " +
+                "ORDER BY nombre";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + apellido + "%"); // ignora mayusc
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Paciente p = new Paciente();
+                    p.setId(rs.getLong("id_paciente"));
+                    p.setNombre(rs.getString("nombre"));
+                    p.setApellido(rs.getString("apellido"));
+                    p.setDni(rs.getString("dni"));
+
+                    java.sql.Date f = rs.getDate("fecha_nacimiento"); // convierte date de SQL a date de Java
+                    if (f != null) p.setFechaNacimiento(f.toLocalDate()); // evita nullpointerexept
+
+                    p.setEliminado(rs.getBoolean("eliminado")); // por si esta eliminado
+                    pacientes.add(p);
+                }
+            }
+        }
+        return pacientes;
     }
 }
 

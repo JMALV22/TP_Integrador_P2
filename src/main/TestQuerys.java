@@ -39,6 +39,36 @@ public class TestQuerys {
                 System.out.println(" No existe paciente con ID = " + idBuscado);
             }
             */
+
+                        // test 3: buscar por DNI
+           /*
+            String dniBuscado = "20000005";
+            Paciente p2 = dao.obtenerPorDni(dniBuscado, con);
+
+            if (p2 != null) {
+                System.out.println(" Paciente por DNI encontrado:");
+                System.out.println(p2);
+            } else {
+                System.out.println(" No existe paciente con DNI = " + dniBuscado);
+            }
+            */
+
+                        // test 4: buscar por apellido
+            /*
+            String apellidoBuscado = "PacApellido123";
+            List<Paciente> encontrados = dao.buscarPorApellido(apellidoBuscado, con);
+
+            if (encontrados.isEmpty()) {
+                System.out.println(" No se encontraron pacientes con apellido: " + apellidoBuscado);
+            } else {
+                System.out.println(" Pacientes encontrados (" + encontrados.size() + "):");
+                for (Paciente p : encontrados) {
+                    System.out.println(p);
+                }
+            }
+            */
+
+
         }
     }
 }
