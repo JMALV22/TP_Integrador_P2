@@ -25,7 +25,7 @@ public class Paciente extends Base{
      * @param dni               DNI del paciente
      * @param fechaNacimiento   Fecha de nacimiento
      * @param id                ID del paciente en la BD
-     * @param eliminado         Eliminado o no en base de datos
+     * @param eliminado         Eliminado o no en base de datos (Eliminado Logico)
      */
     public Paciente(String nombre, String apellido, String dni, LocalDate fechaNacimiento, Long id, Boolean eliminado) {
         super(id, eliminado);
