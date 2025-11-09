@@ -68,6 +68,34 @@ public class TestQuerys {
             }
             */
 
+                        // test 5: actualizar paciente por ID
+            /*
+            Long idEditar = 5L; // cambiar por un ID que exista
+            Paciente p = dao.obtenerPorId(idEditar, con);
+
+            if (p == null) {
+                System.out.println("️ No existe paciente con ID = " + idEditar);
+            } else {
+                System.out.println("Antes de actualizar:");
+                System.out.println(p);
+
+                // mostramos datos cambiados
+                p.setNombre("NombreActualizado5");
+                p.setApellido("ApellidoActualizado5");
+                // mantener el mismo DNI o usar uno que no choque con otro
+                p.setDni(p.getDni());
+
+                boolean ok = dao.actualizar(p, con);
+                System.out.println(ok ? " Actualizado correctamente" : "️ No se pudo actualizar"); // if ternario
+
+                // verificar
+                Paciente verif = dao.obtenerPorId(idEditar, con);
+                System.out.println("Despues de actualizar:");
+                System.out.println(verif);
+            }
+            */
+
+
 
         }
     }
