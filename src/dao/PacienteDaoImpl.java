@@ -86,8 +86,27 @@ public class PacienteDaoImpl implements PacienteDao {
     }
 
     @Override
-    public boolean actualizar(Paciente entity, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("actualizar() aún no implementado");
+    public boolean actualizar(Paciente p, Connection con) throws SQLException {
+        String sql = "UPDATE paciente " +
+                "SET nombre = ?, apellido = ?, dni = ?, fecha_nacimiento = ? " +
+                "WHERE id_paciente = ? AND eliminado = FALSE";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, p.getNombre());
+            ps.setString(2, p.getApellido());
+            ps.setString(3, p.getDni());
+
+            if (p.getFechaNacimiento() != null) {
+                ps.setDate(4, java.sql.Date.valueOf(p.getFechaNacimiento()));
+            } else {
+                ps.setNull(4, java.sql.Types.DATE); // convierte date de SQL a date de Java
+            }
+
+            ps.setLong(5, p.getId()); // id que define que fila actualizar
+
+            int filas = ps.executeUpdate(); // devuelve cuantas filas fueron modificadas
+            return filas == 1; // true si actualiza  1 fila
+        }
     }
 
     @Override
