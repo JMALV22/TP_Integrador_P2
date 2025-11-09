@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenericDao<T> {
 
-    boolean guardar(T entity, Connection con) throws SQLException;
+    T insertar(T entity, Connection con) throws SQLException;
 
     T obtenerPorId(Long id, Connection con) throws SQLException;
 
