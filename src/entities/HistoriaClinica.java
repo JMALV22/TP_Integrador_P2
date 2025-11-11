@@ -60,13 +60,16 @@ public class HistoriaClinica extends Base{
         return observaciones;
     }
 
-    public void setMedicacionActual(String medicacionActual) {
-        this.medicacionActual = medicacionActual;
-    }
+    public void setNroHistoria(String nroHistoria) { this.nroHistoria = nroHistoria; }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
+    public void setGrupoSanguineo(GrupoSanguineo grupoSanguineo) { this.grupoSanguineo = grupoSanguineo; }
+
+    public void setAntecedentes(String antecedentes) { this.antecedentes = antecedentes; }
+
+    public void setMedicacionActual(String medicacionActual) { this.medicacionActual = medicacionActual; }
+
+    public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
+
 
     @Override
     public String toString() {
