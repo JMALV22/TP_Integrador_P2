@@ -17,6 +17,9 @@ public class TestQuerys {
 
             // descometar funcion para testearla
 
+
+            // ***************** TEST DE PACIENTE *****************
+
             // test 1 simular SELECT * FROM paciente
             /*
             List<Paciente> pacientes = dao.obtenerTodos(con);
@@ -117,7 +120,7 @@ public class TestQuerys {
             */
 
                         // test 7: insertar paciente (devuelve la entidad con ID)
-
+            /*
             Paciente nuevo = new Paciente();
             nuevo.setNombre("Luciano");
             nuevo.setApellido("Andrelo");
@@ -130,7 +133,9 @@ public class TestQuerys {
             // verificación
             Paciente verif = dao.obtenerPorId(insertado.getId(), con);
             System.out.println("Verificación: " + verif);
+            */
 
+            // ***************** TEST DE HISTORIA CLINICA *****************
 
 
 

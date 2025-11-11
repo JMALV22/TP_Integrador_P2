@@ -27,6 +27,6 @@ public enum GrupoSanguineo {
         for (GrupoSanguineo g : values()) {
             if (g.valor.equalsIgnoreCase(valorBD)) return g;
         }
-        throw new IllegalArgumentException("Valor de grupo sanguíneo invalido: " + valorBD);
+        throw new IllegalArgumentException("Valor de grupo sanguineo invalido: " + valorBD);
     }
 }
