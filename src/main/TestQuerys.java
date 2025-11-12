@@ -1,8 +1,11 @@
 package main;
 
 import config.ConexionDB;
+import dao.HistoriaClinicaDao;
+import dao.HistoriaClinicaDaoImpl;
 import dao.PacienteDao;
 import dao.PacienteDaoImpl;
+import entities.HistoriaClinica;
 import entities.Paciente;
 
 import java.sql.Connection;
@@ -136,6 +139,63 @@ public class TestQuerys {
             */
 
             // ***************** TEST DE HISTORIA CLINICA *****************
+
+            // test 1: SELECT Historia Clínica por ID
+
+        /*
+            // ID a consultar en la tabla historia_clinica
+            Long idPrueba = 10L;   // L por Long
+
+            // creamos el DAO
+            HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
+
+            // ejecutamos la consulta usando la misma conexión "con"
+            HistoriaClinica hc = daoHC.obtenerPorId(idPrueba, con);
+
+            // si hc NO es null imprime el objeto
+            // si hc ES null imprime "No encontrada"
+            System.out.println(hc != null ? hc : "No encontrada");
+        */
+
+            // test 2: SELECT Historia Clinica por nro_historia
+/*
+            // nro de historia clínica a consultar
+            String nroHistoria = "HC-00042";
+
+            // creamos el DAO
+            HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
+
+            // ejecutamos la consulta usando la misma conexión "con"
+            HistoriaClinica hc = daoHC.obtenerPorNroHistoria(nroHistoria, con);
+
+            // si hc NO es null imprime el objeto encontrado
+            // si hc ES null imprime mensaje indicando que no existe
+            System.out.println(hc != null ? ("Encontrada: " + hc) : " No existe historia con nro = "
+                    + nroHistoria); // if ternario
+*/
+
+            // test 3: SELECT * FROM Historia Clinica
+/*
+            // creamos el DAO
+            HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
+
+            // ejecutamos la consulta con la misma con
+            List<HistoriaClinica> historias = daoHC.obtenerTodos(con);
+
+            // si la lista no esta vacía, mostramos cada una
+            if (!historias.isEmpty()) {
+                System.out.println(" Lista completa de Historias Clínicas:");
+                System.out.println("--------------------------------------");
+                for (HistoriaClinica hc : historias) {
+                    System.out.println(hc);
+                }
+                System.out.println(" Total de historias encontradas: " + historias.size());
+            } else {
+                System.out.println(" No se encontraron historias clinicas activas.");
+            }
+*/
+
+
 
 
 
