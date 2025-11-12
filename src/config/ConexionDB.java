@@ -17,10 +17,10 @@ public class ConexionDB {
     public static Connection getConnection() {
         try {
             Connection conexion = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("✅ Conexión establecida correctamente");
+            System.out.println("Conexión establecida correctamente");
             return conexion;
         } catch (SQLException e) {
-            System.err.println("❌ Error al conectar con la base de datos:");
+            System.err.println("Error al conectar con la base de datos:");
             e.printStackTrace();
             return null;
         }
