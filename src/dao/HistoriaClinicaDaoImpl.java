@@ -3,10 +3,7 @@ package dao;
 import entities.GrupoSanguineo;
 import entities.HistoriaClinica;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,10 +137,57 @@ public class HistoriaClinicaDaoImpl implements HistoriaClinicaDao {
         return lista;
     }
 
-    @Override
-    public HistoriaClinica insertar(HistoriaClinica entity, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("metodo aún no implementado");
+    @Override   // INSERT
+    public HistoriaClinica insertar(HistoriaClinica hc, Connection con) throws SQLException {
+
+        // sql para inserta una nueva historia clínica en la base de datos
+        final String sql =
+                "INSERT INTO historia_clinica " +
+                        "(eliminado, nro_historia, grupo_sanguineo, antecedentes, medicacion_actual, observaciones, id_paciente) " +
+                        "VALUES (FALSE, ?, ?, ?, ?, ?, ?)";
+
+        // preparamos la consulta indicando que queremos obtener el ID autogenerado
+        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // asignamos valores a los signos '?', en el mismo orden del INSERT
+            ps.setString(1, hc.getNroHistoria());
+
+            //   // si el grupo sanguíneo no es nulo, guardamos su valor textual (string) (enum a str)
+            if (hc.getGrupoSanguineo() != null) {
+                ps.setString(2, hc.getGrupoSanguineo().getValor()); // toma el valor
+            } else {
+                ps.setNull(2, java.sql.Types.VARCHAR); // si no tiene grupo sanguineo, guarda como null
+            }
+            ps.setString(3, hc.getAntecedentes()); // antecedentes
+            ps.setString(4, hc.getMedicacionActual());  // medicacion_actual
+            ps.setString(5, hc.getObservaciones()); // observaciones
+
+            // chequeo de que el insert tenga un valor (id) y que ese valor exista en paciente
+            if (hc.getIdPaciente() != null) { // id_paciente (FK) debe existir en la tabla paciente
+                ps.setLong(6, hc.getIdPaciente()); // si el id es valido, se asigna al '?'
+            } else {
+                throw new SQLException("idPaciente es null: la historia clínica debe estar asociada a un paciente");
+            } // verifica si el objeto siendo insertado tiene un paciente asociado
+
+            // ejecutamos el INSERT
+            int filas = ps.executeUpdate();
+            if (filas != 1) {  // si no se inserto ninguna fila, lanza error
+                throw new SQLException("No se pudo insertar la historia clínica (0 filas afectadas)");
+            }
+
+            // obtenemos el ID autogenerado desde la BD y lo guardamos en el objeto
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    hc.setId(keys.getLong(1)); // seteamos el id de la historia
+                    return hc;
+                } else {
+                    throw new SQLException("Se insertó la historia pero no se obtuvo el ID generado");
+                }
+            }
+        }
     }
+
+
 
     @Override
     public boolean actualizar(HistoriaClinica entity, Connection con) throws SQLException {
