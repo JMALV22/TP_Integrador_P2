@@ -5,6 +5,7 @@ import dao.HistoriaClinicaDao;
 import dao.HistoriaClinicaDaoImpl;
 import dao.PacienteDao;
 import dao.PacienteDaoImpl;
+import entities.GrupoSanguineo;
 import entities.HistoriaClinica;
 import entities.Paciente;
 
@@ -194,6 +195,38 @@ public class TestQuerys {
                 System.out.println(" No se encontraron historias clinicas activas.");
             }
 */
+
+                    // test 4: INSERT Historia Clinica
+            /*
+            // TRUNCAR LA TABLA HISTORIA_CLINICA PARA INSERTAR DATOS, SINO DA ERROR DE DUPLICIDAD
+
+            //  Creamos el DAO
+            HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
+
+            //  Creamos una historia clínica nueva (sin ID porque lo genera SQL)
+            HistoriaClinica nueva = new HistoriaClinica();
+            nueva.setNroHistoria("HC-TEST-001");
+            nueva.setGrupoSanguineo(GrupoSanguineo.A_POSITIVO);
+            nueva.setAntecedentes("Antecedentes de prueba");
+            nueva.setMedicacionActual("Ibuprofeno 400 mg");
+            nueva.setObservaciones("Paciente sin complicaciones");
+
+            // asociar la historia a un paciente que ya exista en la tabla paciente
+            nueva.setIdPaciente(4L); // usar un ID existente
+
+            //  Ejecutamos el INSERT usando la conexión con
+            HistoriaClinica insertada = daoHC.insertar(nueva, con);
+
+            //  Si inserto, insertada tendrá un ID asignado por SQL (autoincrement)
+            if (insertada != null) {
+                System.out.println(" Insertada correctamente:");
+                System.out.println(insertada);
+            } else {
+                System.out.println(" Falla de inserción");
+            }
+             */
+
+
 
 
 

@@ -17,6 +17,7 @@ public class HistoriaClinica extends Base{
     private String antecedentes;
     private String medicacionActual;
     private String observaciones;
+    private Long idPaciente;   // FK hacia paciente
 
     /*
      * @param nroHistoria       Numero asignado a la historia clinica
@@ -70,16 +71,21 @@ public class HistoriaClinica extends Base{
 
     public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
 
+    public Long getIdPaciente() {return idPaciente;}
+
+    public void setIdPaciente(Long idPaciente) {this.idPaciente = idPaciente;}
+
 
     @Override
     public String toString() {
         return "HistoriaClinica{" +
                 "id=" + getId() +
-                "nroHistoria=" + nroHistoria +
+                ", nroHistoria=" + nroHistoria +
                 ", grupoSanguineo=" + grupoSanguineo +
-                ", Antecedentes=" + antecedentes +
+                ", antecedentes=" + antecedentes +
                 ", medicacionActual=" + medicacionActual +
                 ", observaciones=" + observaciones +
+                ", idPaciente=" + idPaciente +
                 ", eliminado=" + isEliminado() +
                 '}';
     }
