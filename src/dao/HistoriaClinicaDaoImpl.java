@@ -189,15 +189,69 @@ public class HistoriaClinicaDaoImpl implements HistoriaClinicaDao {
 
 
 
-    @Override
-    public boolean actualizar(HistoriaClinica entity, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("metodo aún no implementado");
+    @Override   // UPDATE
+    public boolean actualizar(HistoriaClinica hc, Connection con) throws SQLException {
+
+        // Actualiza los datos de una historia clínica existente si no está eliminada
+        final String sql =
+                "UPDATE historia_clinica " +
+                        "SET nro_historia = ?, " +
+                        "    grupo_sanguineo = ?, " +
+                        "    antecedentes = ?, " +
+                        "    medicacion_actual = ?, " +
+                        "    observaciones = ? " +
+                        "WHERE id_historia = ? AND eliminado = FALSE";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+            // // se cargan parametros en mismo orden que los ?
+            ps.setString(1, hc.getNroHistoria());
+
+            // convierte el texto SQL al enum de Java
+            if (hc.getGrupoSanguineo() != null) {
+                ps.setString(2, hc.getGrupoSanguineo().getValor());
+            } else {
+                ps.setNull(2, java.sql.Types.VARCHAR);   // por si es null
+            }
+
+            ps.setString(3, hc.getAntecedentes());
+            ps.setString(4, hc.getMedicacionActual());
+            ps.setString(5, hc.getObservaciones());
+            if (hc.getId() == null) { //     si el ID del objeto viene null, no sabemos que fila actualizar
+                throw new SQLException("El ID de la historia clínica es null, no se puede actualizar");
+            }
+            ps.setLong(6, hc.getId());   // id_historia en el WHERE (6)
+
+            // ejecutamos el update, devuelve cuántas filas fueron modificadas
+            int filas = ps.executeUpdate();
+
+            // true = se actualizo una fila, false = no existía ese id
+            return filas == 1;
+        }
     }
 
-    @Override
+    @Override   // DELETE, , dar de baja
     public boolean eliminar(Long id, Connection con) throws SQLException {
-        throw new UnsupportedOperationException("metodo aún no implementado");
+
+        // Solo pasamos eliminado a TRUE, no se borran datos
+        final String sql =
+                "UPDATE historia_clinica " +
+                        "SET eliminado = TRUE " +
+                        "WHERE id_historia = ? AND eliminado = FALSE";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+            // ID de la historia a eliminar
+            ps.setLong(1, id);
+
+            // ejecutamos el UPDATE
+            int filas = ps.executeUpdate();
+
+            // false no existía ese id, true se marca una fila como eliminada
+            return filas == 1;
+        }
     }
+
 
 
 }

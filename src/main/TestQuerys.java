@@ -226,11 +226,64 @@ public class TestQuerys {
             }
              */
 
+            // test 5 UPDATE Historia Clínica
+            /*
+                //  Creamos el DAO
+                HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
 
+                Long idEditar = 1L;   // elegir ID a editar de historia, tiene que existir en la DB
 
+                HistoriaClinica hc = daoHC.obtenerPorId(idEditar, con); //  Busca la historia clinica
 
+                if (hc == null) {
+                    System.out.println(" No existe historia clínica con ID = " + idEditar);
+                } else {
+                    // muestra el valor actual
+                    System.out.println(" Antes de actualizar:");
+                    System.out.println(hc);
 
+                    //  modificacion de campos
+                    hc.setObservaciones("Update desde IntelliJ");
+                    hc.setMedicacionActual("Nuevo tratamiento");
+                    hc.setAntecedentes("Antecedentes modificados");
+                    hc.setGrupoSanguineo(GrupoSanguineo.O_NEGATIVO);
 
+                    //  ejecutamos el UPDATE
+                    boolean ok = daoHC.actualizar(hc, con);
+
+                    System.out.println(ok ? " Actualizada correctamente" : " No se pudo actualizar"); // if ternario
+
+                    //  consulta post update
+                    HistoriaClinica hc2 = daoHC.obtenerPorId(idEditar, con);
+                    System.out.println(" Despues del update:");
+                    System.out.println(hc2);
+                }
+            */
+
+                        // test 6 DELETE, dar de baja
+                /*
+                // Creamos el DAO concreto
+                HistoriaClinicaDao daoHC = new HistoriaClinicaDaoImpl();
+
+                // ID de historia a eliminar
+                Long idEliminar = 6L;
+
+                // historia antes de eliminar
+                HistoriaClinica antes = daoHC.obtenerPorId(idEliminar, con);
+                System.out.println(" Antes de eliminar:");
+                System.out.println(antes != null ? antes : " No existe historia con ID = " + idEliminar);
+
+                // Ejecutamos la baja
+                boolean okDel = daoHC.eliminar(idEliminar, con);
+
+                System.out.println(okDel ? " Baja realizada " : " No se pudo dar la baja");
+
+                // Intentamos verla
+                HistoriaClinica despues = daoHC.obtenerPorId(idEliminar, con);
+                System.out.println(" Despues de eliminar:");
+                System.out.println(despues != null ? despues : " No se puede acceder a los datos");
+
+                 */
 
 
         }
