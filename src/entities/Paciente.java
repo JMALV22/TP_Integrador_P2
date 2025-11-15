@@ -76,8 +76,7 @@ public class Paciente extends Base{
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
-
+    
     @Override
     public String toString() {
         return "Paciente{" +
