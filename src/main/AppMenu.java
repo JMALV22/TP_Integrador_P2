@@ -1,82 +1,55 @@
 package main;
 
+import dao.HistoriaClinicaDaoImpl;
+import dao.PacienteDaoImpl;
+import entities.GrupoSanguineo;
+import entities.HistoriaClinica;
 import entities.Paciente;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import static main.MenuDisplay.mostrarMenuPrincipal;
-import service.HistoriaClinicaService;
-import service.PacienteService;
+import service.HistoriaClinicaServiceImpl;
+import service.PacienteServiceImpl;
+
 
 public class AppMenu {
     
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);
+        PacienteDaoImpl pacienteDaoImpl = new PacienteDaoImpl();
+        HistoriaClinicaDaoImpl HistoriaClinicaDaoImpl = new HistoriaClinicaDaoImpl();
+        HistoriaClinicaServiceImpl historialClinicoService = new HistoriaClinicaServiceImpl();
         
-        PacienteService pacienteService = new PacienteService();                      
-        HistoriaClinicaService historialClinicoService = new HistoriaClinicaService();
+        PacienteServiceImpl pacienteService = new PacienteServiceImpl(pacienteDaoImpl, historialClinicoService);                      
+        MenuHandler menuHandler = new MenuHandler(pacienteService, sc);
         
         int opcion = -1;
         
         do {
             try {
-                
+               
                 mostrarMenuPrincipal();
                 opcion = Integer.parseInt(sc.nextLine());
 
                 switch (opcion) {
-                    case 1 -> {
+                    case 1 -> menuHandler.listarPersonas();
                         
-                        List<Paciente> pacientes;
-                        pacientes = pacienteService.getAll();
-                        System.out.println(pacientes); //print solo para prueba
+                    case 2 -> menuHandler.listarPersonaPorDNI(); 
+                      
+                    case 3 -> menuHandler.listarPersonaPorID();
                         
-                        for (Paciente p : pacientes) {
-                            System.out.println("ID: " + p.getId() 
-                                + "\nNombre: " + p.getNombre() 
-                                + "\nApellido: " + p.getApellido() 
-                                + "\nDNI: " + p.getDni());
-                            if (p.getHistoriaClinica()!= null) {
-                                System.out.println("\n --- N° Historial Clinico: " 
-                                        + p.getHistoriaClinica().getNroHistoria()
-                                        + "\n* Grupo sanguineo: " 
-                                        + p.getHistoriaClinica().getGrupoSanguineo()
-                                        + "\n* Antecedentes: " 
-                                        + p.getHistoriaClinica().getAntecedentes()
-                                        + "\n* Medicacion actual: "
-                                        + p.getHistoriaClinica().getMedicacionActual()
-                                        + "\n* Observaciones: "
-                                        + p.getHistoriaClinica().getObservaciones());
-                            }
-                        }
-                    }
-                    case 2 -> {
+                    case 4 -> menuHandler.crearPaciente();
+                    
+                    case 5 -> menuHandler.actualizarPaciente();
+                }
                         
-                        System.out.println("Ingrese el DNI del paciente a buesca:");
-                        String dni = sc.nextLine().trim();
                         
-                        Paciente p = pacienteService.buscarPorDni(dni);
                         
-                        System.out.println("ID: " + p.getId() 
-                                + "\nNombre: " + p.getNombre() 
-                                + "\nApellido: " + p.getApellido() 
-                                + "\nDNI: " + p.getDni());
-                            if (p.getHistoriaClinica()!= null) {
-                                System.out.println("\n --- N° Historial Clinico: " 
-                                        + p.getHistoriaClinica().getNroHistoria()
-                                        + "\n* Grupo sanguineo: " 
-                                        + p.getHistoriaClinica().getGrupoSanguineo()
-                                        + "\n* Antecedentes: " 
-                                        + p.getHistoriaClinica().getAntecedentes()
-                                        + "\n* Medicacion actual: "
-                                        + p.getHistoriaClinica().getMedicacionActual()
-                                        + "\n* Observaciones: "
-                                        + p.getHistoriaClinica().getObservaciones());
-                    }
-                
+                    
+                    
                     /**
-                    case 3 -> actualizarPersona();
-                    case 4 -> eliminarPersona();
                     case 5 -> crearDomicilioIndependiente();
                     case 6 -> listarDomicilios();
                     case 7 -> actualizarDomicilioPorId();
@@ -88,8 +61,8 @@ public class AppMenu {
                         running = false;
                     }
                     */
-                    }
-                }
+                    
+                
    
             } catch (NumberFormatException e ){
                      
@@ -99,6 +72,11 @@ public class AppMenu {
            
         // EN CONSTRUCCIONNNNNNNNNNNNNNNNNN
 
+    }
+    
+    public static LocalDate fechaStringALocalDate(String fechaTexto){
+        LocalDate fecha = LocalDate.parse(fechaTexto);
+        return fecha;
     }
     
     

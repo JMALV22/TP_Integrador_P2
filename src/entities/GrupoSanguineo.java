@@ -29,4 +29,5 @@ public enum GrupoSanguineo {
         }
         throw new IllegalArgumentException("Valor de grupo sanguineo invalido: " + valorBD);
     }
+    
 }
