@@ -1,47 +1,95 @@
 package service;
 
+import config.ConexionDB;
 import entities.HistoriaClinica;
 import entities.Paciente;
+import dao.HistoriaClinicaDao;
+import dao.HistoriaClinicaDaoImpl;
+import dao.PacienteDao;
 import dao.PacienteDaoImpl;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-public class PacienteServiceImpl {
+public class PacienteServiceImpl implements GenericService<Paciente>{
     
-    private final PacienteDaoImpl pacienteDao;
+    private final PacienteDao pacienteDao;
+    private final HistoriaClinicaDao historiaClinicaDao;
 
-    private final HistoriaClinicaServiceImpl historiaClinicaService;
+    public PacienteServiceImpl() {
+        this.pacienteDao = new PacienteDaoImpl();
+        this.historiaClinicaDao = new HistoriaClinicaDaoImpl();
+    }
+    
+    @Override
+    public Paciente insertar(Paciente paciente) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = ConexionDB.getConnection();
+            conn.setAutoCommit(false);
 
-    public PacienteServiceImpl(PacienteDaoImpl pacienteDao, HistoriaClinicaServiceImpl historiaClinicaService) {
-        this.pacienteDao = pacienteDao;
-        this.historiaClinicaService = historiaClinicaService;
+            Paciente pacienteInsertado = pacienteDao.insertar(paciente, conn);
+            
+            if (pacienteInsertado.getHistoriaClinica() != null) {
+                HistoriaClinica hc = pacienteInsertado.getHistoriaClinica();
+                hc.setIdPaciente(pacienteInsertado.getId());
+                historiaClinicaDao.insertar(hc, conn);
+            }
+            
+            conn.commit();
+            return pacienteInsertado;
+            
+        } catch (SQLException e) {
+            if (conn != null) {
+                conn.rollback();
+            }
+            throw e;
+        } finally {
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        }
     }
     
-    public List<Paciente> getAll(){
-        return null;
+    @Override
+    public Paciente obtenerPorId(Long id) throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.obtenerPorId(id, conn);
+        }
+    }
+
+    @Override
+    public List<Paciente> obtenerTodos() throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.obtenerTodos(conn);
+        }
+    }
+
+    @Override
+    public boolean actualizar(Paciente paciente) throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.actualizar(paciente, conn);
+        }
+    }
+
+    @Override
+    public boolean eliminar(Long id) throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.eliminar(id, conn);
+        }
+    }
+
+    public Paciente buscarPorDni(String dni) throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.obtenerPorDni(dni, conn);
+        }
     }
     
-    public Paciente buscarPorID(String id){
-        return null;
+    public List<Paciente> buscarPorApellido(String apellido) throws SQLException {
+        try (Connection conn = ConexionDB.getConnection()) {
+            return pacienteDao.buscarPorApellido(apellido, conn);
+        }
     }
-    
-    public Paciente buscarPorDni(String dni){
-        return null;
-    }
-    
-    public Paciente crearPaciente(Paciente paciente){
-        return null;
-    }
-    
-    public Paciente insertarPaciente(Paciente paciente){
-        return null;
-    }
-    
-    public Paciente actualizarPaciente(Paciente paciente){
-        return null;
-    }
-    
-    public HistoriaClinicaServiceImpl getHistoriaClinicaServer() {
-        return this.historiaClinicaService;
-    }
-    
 }
