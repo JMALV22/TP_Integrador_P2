@@ -31,7 +31,7 @@ public class MenuHandler {
     public void listarPersonas() {
         try {
             List<Paciente> pacientes;
-            pacientes = pacienteService.getAll();
+            pacientes = pacienteService.obtenerTodos();
             System.out.println(pacientes); //print solo para prueba
                         
             for (Paciente p : pacientes) {
@@ -59,10 +59,10 @@ public class MenuHandler {
     
     public void listarPersonaPorDNI() {
         try {
-            System.out.println("Ingrese el ID del paciente a buesca:");
-            String id = sc.nextLine().trim();
-                        
-            Paciente p = pacienteService.buscarPorID(id);
+            System.out.println("Ingrese el DNI del paciente a buesca:");
+            String dni = sc.nextLine().trim();
+                    
+            Paciente p = pacienteService.buscarPorDni(dni);
                         
             System.out.println("ID: " + p.getId() 
                     + "\nNombre: " + p.getNombre() 
@@ -88,9 +88,15 @@ public class MenuHandler {
     public void listarPersonaPorID() {
         try {
             System.out.println("Ingrese el ID del paciente a buesca:");
-            String id = sc.nextLine().trim();
+            Long id_long = null;
+            try {
+                String id_texto = sc.nextLine().trim();
+                id_long = Long.parseLong(id_texto);
+            } catch (NumberFormatException e) {
+                System.out.println("El número no es válido");
+            }
                         
-            Paciente p = pacienteService.buscarPorID(id);
+            Paciente p = pacienteService.obtenerPorId(id_long);
                         
             System.out.println("ID: " + p.getId() 
                     + "\nNombre: " + p.getNombre() 
@@ -145,7 +151,7 @@ public class MenuHandler {
             HistoriaClinica h = new HistoriaClinica(nroHistoria, grupoSang, antecedentes, 
                                                                medicacionActual, Observaciones, Long.MIN_VALUE, Boolean.TRUE);
             p.setHistoriaClinica(h);      
-            pacienteService.insertarPaciente(p);
+            pacienteService.insertar(p);
             System.out.println("Paciente creado exitosamente con ID: " + p.getId());
             
         } catch (Exception e) {
@@ -183,7 +189,7 @@ public class MenuHandler {
             }
 
             actualizarHistorialDelPaciente(p);
-            pacienteService.actualizarPaciente(p);
+            pacienteService.actualizar(p);
             System.out.println("Persona actualizada exitosamente.");
   
         } catch (Exception e) {
@@ -229,7 +235,7 @@ public class MenuHandler {
                     p.getHistoriaClinica().setObservaciones(observacion);
                 }
               
-                pacienteService.getHistoriaClinicaServer().actualizar(p.getHistoriaClinica());
+                pacienteService.getHistoriaClinica().actualizar(p.getHistoriaClinica());
             }
         } else {
             System.out.print("La persona no tiene domicilio. ¿Desea agregar uno? (s/n): ");

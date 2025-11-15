@@ -1,28 +1,17 @@
 package main;
 
-import dao.HistoriaClinicaDaoImpl;
-import dao.PacienteDaoImpl;
-import entities.GrupoSanguineo;
-import entities.HistoriaClinica;
-import entities.Paciente;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 import static main.MenuDisplay.mostrarMenuPrincipal;
-import service.HistoriaClinicaServiceImpl;
 import service.PacienteServiceImpl;
-
 
 public class AppMenu {
     
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);
-        PacienteDaoImpl pacienteDaoImpl = new PacienteDaoImpl();
-        HistoriaClinicaDaoImpl HistoriaClinicaDaoImpl = new HistoriaClinicaDaoImpl();
-        HistoriaClinicaServiceImpl historialClinicoService = new HistoriaClinicaServiceImpl();
         
-        PacienteServiceImpl pacienteService = new PacienteServiceImpl(pacienteDaoImpl, historialClinicoService);                      
+        PacienteServiceImpl pacienteService = new PacienteServiceImpl();                      
         MenuHandler menuHandler = new MenuHandler(pacienteService, sc);
         
         int opcion = -1;
