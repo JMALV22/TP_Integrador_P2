@@ -25,7 +25,7 @@ public class TestQuerys {
             // ***************** TEST DE PACIENTE *****************
 
             // test 1 simular SELECT * FROM paciente
-            /*
+/*
             List<Paciente> pacientes = dao.obtenerTodos(con);
             System.out.println(" Pacientes (primeros 10):");
             for (int i = 0; i < Math.min(10, pacientes.size()); i++) {
@@ -35,7 +35,7 @@ public class TestQuerys {
             */
 
             // test 2 buscar por id
-            /*
+/*
             Long idBuscado = 5L; // 5L porque el tipo es Long
             Paciente p = dao.obtenerPorId(idBuscado, con); // con = conexion  jdbc a BD
 
@@ -48,7 +48,7 @@ public class TestQuerys {
             */
 
                         // test 3: buscar por DNI
-           /*
+/*
             String dniBuscado = "20000005";
             Paciente p2 = dao.obtenerPorDni(dniBuscado, con); // con = conexion  jdbc a BD
 
@@ -103,8 +103,8 @@ public class TestQuerys {
             */
 
                         // test 6: dar de baja
-            /*
-            Long idBorrar = 5L; // elegir id
+/*
+            Long idBorrar = 6L; // elegir id
 
             Paciente antes = dao.obtenerPorId(idBorrar, con); // con = conexion  jdbc a BD
             if (antes == null) { // si no existe id
@@ -121,10 +121,10 @@ public class TestQuerys {
                 System.out.println("Después de baja (buscarPorId): " +
                         (despues == null ? "no aparece " : despues)); // if ternario
             }
-            */
+*/
 
                         // test 7: insertar paciente (devuelve la entidad con ID)
-            /*
+/*
             Paciente nuevo = new Paciente();
             nuevo.setNombre("Luciano");
             nuevo.setApellido("Andrelo");
@@ -137,13 +137,13 @@ public class TestQuerys {
             // verificación
             Paciente verif = dao.obtenerPorId(insertado.getId(), con);
             System.out.println("Verificación: " + verif);
-            */
+           */
 
             // ***************** TEST DE HISTORIA CLINICA *****************
 
             // test 1: SELECT Historia Clínica por ID
 
-        /*
+/*
             // ID a consultar en la tabla historia_clinica
             Long idPrueba = 10L;   // L por Long
 
@@ -153,8 +153,8 @@ public class TestQuerys {
             // ejecutamos la consulta usando la misma conexión "con"
             HistoriaClinica hc = daoHC.obtenerPorId(idPrueba, con);
 
-            // si hc NO es null imprime el objeto
-            // si hc ES null imprime "No encontrada"
+            // si hc no es null imprime el objeto
+            // si hc es null imprime no encontrada
             System.out.println(hc != null ? hc : "No encontrada");
         */
 

@@ -11,13 +11,15 @@ public class HistoriaClinicaDaoImpl implements HistoriaClinicaDao {
 
 
     // metodos del contrato (generic)
+    // usa PreparedStatement para evitar SQL injection
+    // todas las querys reciben connection para la capa Service
 
     @Override
     public HistoriaClinica obtenerPorId(Long id, Connection con) throws SQLException {
 
         final String sql =
                 "SELECT id_historia, eliminado, nro_historia, grupo_sanguineo, antecedentes, " +
-                        "medicacion_actual, observaciones " +
+                        "       medicacion_actual, observaciones, id_paciente " +
                         "FROM historia_clinica " +
                         "WHERE id_historia = ? AND eliminado = FALSE"; // los eliminados no saldrian en el resultado, pero siguen en la db
 
@@ -35,14 +37,14 @@ public class HistoriaClinicaDaoImpl implements HistoriaClinicaDao {
                     hc.setEliminado(rs.getBoolean("eliminado"));
                     hc.setNroHistoria(rs.getString("nro_historia"));
 
-                    // convierte ENUM de la BD → enum de Java
+                    // convierte ENUM de la BD a enum de Java
                     hc.setGrupoSanguineo(
                             GrupoSanguineo.convertir(rs.getString("grupo_sanguineo")));
-
                     hc.setAntecedentes(rs.getString("antecedentes"));
                     hc.setMedicacionActual(rs.getString("medicacion_actual"));
                     hc.setObservaciones(rs.getString("observaciones"));
-
+                    hc.setIdPaciente(rs.getObject("id_paciente", Long.class)); // convierte columna a Long
+                    // si existe, devuelve Long, si no null // FK del paciente, getLong devolveria 0 si es null
                     return hc;
                 }
             }
@@ -237,7 +239,7 @@ public class HistoriaClinicaDaoImpl implements HistoriaClinicaDao {
         final String sql =
                 "UPDATE historia_clinica " +
                         "SET eliminado = TRUE " +
-                        "WHERE id_historia = ? AND eliminado = FALSE";
+                        "WHERE id_historia = ? AND eliminado = FALSE"; // and verifica que no este eliminado
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
