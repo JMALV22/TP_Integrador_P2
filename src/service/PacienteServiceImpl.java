@@ -16,10 +16,13 @@ public class PacienteServiceImpl implements GenericService<Paciente>{
     
     private final PacienteDao pacienteDao;
     private final HistoriaClinicaDao historiaClinicaDao;
+    private final HistoriaClinicaServiceImpl historiaClinicaServiceImpl;
+    
 
     public PacienteServiceImpl() {
         this.pacienteDao = new PacienteDaoImpl();
         this.historiaClinicaDao = new HistoriaClinicaDaoImpl();
+        this.historiaClinicaServiceImpl = new HistoriaClinicaServiceImpl();
     }
     
     @Override
@@ -91,5 +94,9 @@ public class PacienteServiceImpl implements GenericService<Paciente>{
         try (Connection conn = ConexionDB.getConnection()) {
             return pacienteDao.buscarPorApellido(apellido, conn);
         }
+    }
+    
+    public HistoriaClinicaServiceImpl getHistoriaClinica(){
+        return historiaClinicaServiceImpl;
     }
 }
