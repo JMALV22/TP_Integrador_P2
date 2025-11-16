@@ -63,6 +63,5 @@ public class AppMenu {
         LocalDate fecha = LocalDate.parse(fechaTexto);
         return fecha;
     }
-    
-    
+      
 }
