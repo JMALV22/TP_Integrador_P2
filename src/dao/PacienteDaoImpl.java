@@ -166,8 +166,8 @@ public class PacienteDaoImpl implements PacienteDao {
             if (p.getFechaNacimiento() != null) {
                 ps.setDate(4, java.sql.Date.valueOf(p.getFechaNacimiento()));
             } else {
-                ps.setNull(4, java.sql.Types.DATE); // convierte fecha de SQL a fecha de java
-            }
+                ps.setNull(4, java.sql.Types.DATE); // convierte fecha de Java a SQL
+            } // si es null guarda null
 
             int filas = ps.executeUpdate(); // se ejecuta INSERT
             if (filas != 1) {  // si filas != 1 significa que no hubo insercion

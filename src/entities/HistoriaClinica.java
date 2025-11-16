@@ -78,17 +78,18 @@ public class HistoriaClinica extends Base{
 
     @Override
     public String toString() {
-        return "HistoriaClinica{" +
-                "id=" + getId() +
-                ", nroHistoria=" + nroHistoria +
-                ", grupoSanguineo=" + grupoSanguineo +
-                ", antecedentes=" + antecedentes +
-                ", medicacionActual=" + medicacionActual +
-                ", observaciones=" + observaciones +
-                ", idPaciente=" + idPaciente +
-                ", eliminado=" + isEliminado() +
-                '}';
+        return "HistoriaClinica {\n" +
+                "  id = " + getId() + "\n" +
+                "  nroHistoria = " + nroHistoria + "\n" +
+                "  grupoSanguineo = " + grupoSanguineo + "\n" +
+                "  antecedentes = " + antecedentes + "\n" +
+                "  medicacionActual = " + medicacionActual + "\n" +
+                "  observaciones = " + observaciones + "\n" +
+                "  idPaciente = " + idPaciente + "\n" +
+                "  eliminado = " + isEliminado() + "\n" +
+                "}";
     }
+
 
     // Compara dos Historias Clinicas por nroHistoria (identificador único).
 
