@@ -3,6 +3,7 @@ package main;
 import java.time.LocalDate;
 import java.util.Scanner;
 import static main.MenuDisplay.mostrarMenuPrincipal;
+import service.HistoriaClinicaServiceImpl;
 import service.PacienteServiceImpl;
 
 public class AppMenu {
@@ -11,8 +12,9 @@ public class AppMenu {
         
         Scanner sc = new Scanner(System.in);
         
-        PacienteServiceImpl pacienteService = new PacienteServiceImpl();                      
-        MenuHandler menuHandler = new MenuHandler(pacienteService, sc);
+        PacienteServiceImpl pacienteService = new PacienteServiceImpl();
+        HistoriaClinicaServiceImpl historiaClinicaService = new HistoriaClinicaServiceImpl();
+        MenuHandler menuHandler = new MenuHandler(pacienteService, historiaClinicaService, sc);
         
         int opcion = -1;
         
@@ -32,35 +34,29 @@ public class AppMenu {
                     case 4 -> menuHandler.crearPaciente();
                     
                     case 5 -> menuHandler.actualizarPaciente();
-                }
-                        
-                        
-                        
                     
+                    case 6 -> menuHandler.eliminarPaciente();
                     
-                    /**
-                    case 5 -> crearDomicilioIndependiente();
-                    case 6 -> listarDomicilios();
-                    case 7 -> actualizarDomicilioPorId();
-                    case 8 -> eliminarDomicilioPorId();
-                    case 9 -> actualizarDomicilioPorPersona();
-                    case 10 -> eliminarDomicilioPorPersona();
+                    case 7 -> menuHandler.listarHistoriaClinica();
+                    
+                    case 8 -> menuHandler.listarHistoriaPorDNI();
+                    
+                    case 9 -> menuHandler.listarPorIDHistorial();
+                    
+                    case 10 -> menuHandler.actualizarHistoriaPorDNIPaciente();
+                    
                     case 0 -> {
                         System.out.println("Saliendo...");
-                        running = false;
+                        opcion = 0;
                     }
-                    */
-                    
-                
-   
+                }
+     
             } catch (NumberFormatException e ){
-                     
+                System.out.println("Opcion no valida.");
             }
     
-        } while (true);
-           
-        // EN CONSTRUCCIONNNNNNNNNNNNNNNNNN
-
+        } while (opcion != 0);
+  
     }
     
     public static LocalDate fechaStringALocalDate(String fechaTexto){
