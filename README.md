@@ -2,7 +2,6 @@
 
 # Sistema de Gestión de Pacientes y Historias Clínicas
 
----
 
 ## 👥 Estudiantes
 
