@@ -8,31 +8,35 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import static main.AppMenu.fechaStringALocalDate;
+import service.HistoriaClinicaServiceImpl;
 import service.PacienteServiceImpl;
 
 public class MenuHandler {
     
     private final PacienteServiceImpl pacienteService;
-    
+    private final HistoriaClinicaServiceImpl historiaClinicaService;
     private final Scanner sc;
-    
-    public MenuHandler(service.PacienteServiceImpl pacienteService, Scanner sc) {
+
+    public MenuHandler(PacienteServiceImpl pacienteService, HistoriaClinicaServiceImpl historiaClinicaService, Scanner sc) {
         if (sc == null) {
             throw new IllegalArgumentException("sc no puede ser null");
         }
         if (pacienteService == null) {
             throw new IllegalArgumentException("PersonaService no puede ser null");
         }
-        this.sc = sc;
-        this.pacienteService = pacienteService;
+        if (historiaClinicaService == null) {
+            throw new IllegalArgumentException("HistoriaClinicaService no puede ser null");
+        }
         
+        this.pacienteService = pacienteService;
+        this.historiaClinicaService = historiaClinicaService;
+        this.sc = sc;
     }
-
+    
     public void listarPersonas() {
         try {
             List<Paciente> pacientes;
             pacientes = pacienteService.obtenerTodos();
-            System.out.println(pacientes); //print solo para prueba
                         
             for (Paciente p : pacientes) {
                 System.out.println("ID: " + p.getId() 
@@ -149,7 +153,7 @@ public class MenuHandler {
                         
             Paciente p = new Paciente(nombre, apellido, dni, fechaNacimientoLocal, Long.MIN_VALUE, Boolean.TRUE);
             HistoriaClinica h = new HistoriaClinica(nroHistoria, grupoSang, antecedentes, 
-                                                               medicacionActual, Observaciones, Long.MIN_VALUE, Boolean.TRUE);
+                                    medicacionActual, Observaciones, Long.MIN_VALUE, Boolean.TRUE);
             p.setHistoriaClinica(h);      
             pacienteService.insertar(p);
             System.out.println("Paciente creado exitosamente con ID: " + p.getId());
@@ -197,12 +201,119 @@ public class MenuHandler {
         }
     }
     
+    public void eliminarPaciente() {
+        try {
+            System.out.print("DNI de del paciente a eliminar: ");
+            String dni = sc.nextLine().trim();
+            
+            Paciente p = pacienteService.buscarPorDni(dni);
+            pacienteService.eliminar(p.getId());
+            
+            System.out.println("Paciente (DNI: " + p.getDni() + " eliminado exitosamente.");
+        } catch (Exception e) {
+            System.err.println("Error al eliminar el paciente: " + e.getMessage());
+        }
+    }
     
+    public void listarHistoriaClinica() {
+        try {
+            List<HistoriaClinica> historiaClinica;
+            historiaClinica = historiaClinicaService.obtenerTodos();
+            
+            for (HistoriaClinica h : historiaClinica) {
+             
+                System.out.println("\n --- N° Historial Clinico: " 
+                            + h.getNroHistoria()
+                            + "\n* Grupo sanguineo: " 
+                            + h.getGrupoSanguineo()
+                            + "\n* Antecedentes: " 
+                            + h.getAntecedentes()
+                            + "\n* Medicacion actual: "
+                            + h.getMedicacionActual()
+                            + "\n* Observaciones: "
+                            + h.getObservaciones());
+            }
+  
+        } catch (Exception e) {
+            System.err.println("Error al listar Historial Clinico: " + e.getMessage());
+        }
+    }
     
+    public void listarHistoriaPorDNI() {
+        try {
+            System.out.println("Ingrese el DNI del paciente a buesca su Historia Clinica:");
+            String dni = sc.nextLine().trim();
+                    
+            Paciente p = pacienteService.buscarPorDni(dni);
+                        
+            System.out.println("Nombre y apellido: " + 
+                    p.getNombre() + " " + p.getApellido());
+                    
+                if (p.getHistoriaClinica()!= null) {
+                    System.out.println("\n --- N° Historial Clinico: " 
+                            + p.getHistoriaClinica().getNroHistoria()
+                            + "\n* Grupo sanguineo: " 
+                            + p.getHistoriaClinica().getGrupoSanguineo()
+                            + "\n* Antecedentes: " 
+                            + p.getHistoriaClinica().getAntecedentes()
+                            + "\n* Medicacion actual: "
+                            + p.getHistoriaClinica().getMedicacionActual()
+                            + "\n* Observaciones: "
+                            + p.getHistoriaClinica().getObservaciones());
+                }
+        } catch (Exception e) {
+            System.err.println("Error al listar paciente: " + e.getMessage());
+        }
+    }
     
+    public void listarPorIDHistorial() {
+        try {
+            System.out.println("Ingrese el ID de la Historia Clinica :");
+            Long id_long = null;
+            try {
+                String id_texto = sc.nextLine().trim();
+                id_long = Long.parseLong(id_texto);
+            } catch (NumberFormatException e) {
+                System.out.println("El número no es válido");
+            }
+                    
+            HistoriaClinica h = historiaClinicaService.obtenerPorId(id_long);
+                        
+            System.out.println("\n --- N° Historial Clinico: " 
+                    + h.getNroHistoria()
+                    + "\n* Grupo sanguineo: " 
+                    + h.getGrupoSanguineo()
+                    + "\n* Antecedentes: " 
+                    + h.getAntecedentes()
+                    + "\n* Medicacion actual: "
+                    + h.getMedicacionActual()
+                    + "\n* Observaciones: "
+                    + h.getObservaciones());
+            
+        } catch (Exception e) {
+            System.err.println("Error al listar paciente: " + e.getMessage());
+        }
+    }
     
-    
-    
+    public void actualizarHistoriaPorDNIPaciente() {
+        try {
+            System.out.print("DNI del paciente a actualizar su historia clinica: ");
+            String dni = sc.nextLine().trim();
+            Paciente p = pacienteService.buscarPorDni(dni);
+
+            if (p == null) {
+                System.out.println("Paciente no encontrado.");
+                return;
+            }
+            
+            actualizarHistorialDelPaciente(p);
+
+            System.out.println("Historial actualizado exitosamente.");
+  
+        } catch (Exception e) {
+            System.err.println("Error al actualizar Historia Clinica: " + e.getMessage());
+        }
+    }
     
     
     
@@ -238,13 +349,35 @@ public class MenuHandler {
                 pacienteService.getHistoriaClinica().actualizar(p.getHistoriaClinica());
             }
         } else {
-            System.out.print("La persona no tiene domicilio. ¿Desea agregar uno? (s/n): ");
+            System.out.print("La persona no tiene Historia Clinica. ¿Desea agregar una? (s/n): ");
             if (sc.nextLine().equalsIgnoreCase("s")) {
-                //HistoriaClinica nuevaHistoria = crearHistoriaClinica();
-                //pacienteService.getHistoriaClinicaServer().insertar(nuevaHistoria);
-                //p.setHistoriaClinica(nuevaHistoria);
+                HistoriaClinica nuevaHistoria = crearHistoriaClinica();
+                pacienteService.getHistoriaClinica().actualizar(nuevaHistoria);
+                p.setHistoriaClinica(nuevaHistoria);
             }
         }
+    }
+    
+    private HistoriaClinica crearHistoriaClinica(){
+        System.out.println("\nA continuacion se va a crear su historia clinica");
+        System.out.print("N° de historia clinica: ");
+        String nroHistoria = sc.nextLine().trim();
+        System.out.print("Grupo sanguineo: ");
+        System.out.print("Debe ingresarse: A+ / A- / B+ / B- / AB+ / AB- / O+ / O-\n");
+        String grupoSanguineo = sc.nextLine().trim();
+        System.out.print("Antecedentes: ");
+        String antecedentes = sc.nextLine().trim();
+        System.out.print("Medicacion actual: ");
+        String medicacionActual = sc.nextLine().trim();
+        System.out.print("Observaciones: ");
+        String Observaciones = sc.nextLine().trim();
+                        
+        GrupoSanguineo grupoSang = GrupoSanguineo.convertir(grupoSanguineo);
+                        
+        HistoriaClinica h = new HistoriaClinica(nroHistoria, grupoSang, antecedentes, 
+                                medicacionActual, Observaciones, Long.MIN_VALUE, Boolean.TRUE);
+        
+        return h;
     }
     
 
