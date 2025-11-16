@@ -1,7 +1,19 @@
-# TP-Integrador---P2
+# 💻 Trabajo Práctico Integrador - Programación I
 
 # Sistema de Gestión de Pacientes y Historias Clínicas
 Trabajo Práctico Integrador – Programación II
+
+---
+
+## 👥 Estudiantes
+
+- **Nombre:** Luciano Andrelo  
+- **Nombre:** Nicolás Azcuy
+- **Nombre:** Jose Matias Alvarez
+- **Nombre:** Jeremias Apiani
+- **Comisión:** M2025-17
+
+---
 
 ## 📌 Descripción del proyecto
 Aplicación de consola desarrollada en Java que gestiona pacientes y sus historias clínicas,
