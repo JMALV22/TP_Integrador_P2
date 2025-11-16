@@ -31,8 +31,8 @@ public class TestQuerys {
             for (int i = 0; i < Math.min(10, pacientes.size()); i++) {
                 System.out.println(pacientes.get(i));
             }
-            System.out.println("Total: " + pacientes.size());
-            */
+            System.out.println("Total pacientes: " + pacientes.size());
+*/
 
             // test 2 buscar por id
 /*
@@ -142,7 +142,6 @@ public class TestQuerys {
             // ***************** TEST DE HISTORIA CLINICA *****************
 
             // test 1: SELECT Historia Clínica por ID
-
 /*
             // ID a consultar en la tabla historia_clinica
             Long idPrueba = 10L;   // L por Long

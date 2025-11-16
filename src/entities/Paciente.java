@@ -76,18 +76,18 @@ public class Paciente extends Base{
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
+
     @Override
     public String toString() {
-        return "Paciente{" +
-               "id=" + getId() +
-               "nombre=" + nombre + 
-               ", apellido=" + apellido + 
-               ", dni=" + dni + 
-               ", fechaNacimiento=" + fechaNacimiento + 
-               ", historiaClinica=" + historiaClinica + 
-               ", eliminado=" + isEliminado() +
-               '}';
+        return "Paciente {\n" +
+                "  id = " + getId() + "\n" +
+                "  nombre = " + nombre + "\n" +
+                "  apellido = " + apellido + "\n" +
+                "  dni = " + dni + "\n" +
+                "  fechaNacimiento = " + fechaNacimiento + "\n" +
+                "  historiaClinica = " + historiaClinica + "\n" +
+                "  eliminado = " + isEliminado() + "\n" +
+                "}";
     }
     
     // Compara dos pacientes por DNI (identificador único).
