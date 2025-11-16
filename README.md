@@ -1,7 +1,6 @@
-# 💻 Trabajo Práctico Integrador - Programación I
+# 💻 Trabajo Práctico Integrador - Programación II
 
 # Sistema de Gestión de Pacientes y Historias Clínicas
-Trabajo Práctico Integrador – Programación II
 
 ---
 
