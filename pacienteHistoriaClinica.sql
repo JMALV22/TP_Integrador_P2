@@ -57,7 +57,7 @@ SELECT
   LPAD(20000000 + id, 8, '0'),  -- DNIs de 8 dígitos
   DATE_ADD('1950-01-01', INTERVAL FLOOR(RAND()*24000) DAY)
 FROM generador
-LIMIT 1000;
+LIMIT 10;
 
 INSERT INTO historia_clinica (
   eliminado,
