@@ -104,3 +104,8 @@ config.ProbarConexion
 main.AppMenu
 ```
 
+#### Link al Informe y UML
+```
+https://drive.google.com/drive/folders/1wElYOGtvXzM55qFiiYm0Nm787G_7Z4Zz?usp=drive_link
+```
+
