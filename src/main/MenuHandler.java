@@ -278,10 +278,14 @@ public class MenuHandler {
                     System.out.println("Vuelve a insertar...");
                 }
             } while (!corte);
+            
             LocalDate fechaNacimientoLocal = fechaStringALocalDate(fechaNacimiento);
             if (!fechaNacimiento.isEmpty()) {
                 p.setFechaNacimiento(fechaNacimientoLocal);
             }
+            
+            HistoriaClinica h = pacienteService.getHistoriaClinica().obtenerPorId(p.getId());
+            p.setHistoriaClinica(h);
 
             actualizarHistorialDelPaciente(p);
             pacienteService.actualizar(p);
@@ -308,7 +312,7 @@ public class MenuHandler {
             Paciente p = pacienteService.buscarPorDni(dni);
             pacienteService.eliminar(p.getId());
             
-            System.out.println("Paciente (DNI: " + p.getDni() + " eliminado exitosamente.");
+            System.out.println("Paciente (DNI: " + p.getDni() + ") eliminado exitosamente.");
         } catch (Exception e) {
             System.err.println("Error al eliminar el paciente: " + e.getMessage());
         }
@@ -351,21 +355,27 @@ public class MenuHandler {
             String dni = sc.nextLine().trim();
                     
             Paciente p = pacienteService.buscarPorDni(dni);
-                        
+            
+            if (p == null) {
+                System.out.println("Paciente no encontrado.");
+                return;
+            }
+            
             System.out.println("Nombre y apellido: " + 
                     p.getNombre() + " " + p.getApellido());
                     
-                if (p.getHistoriaClinica()!= null) {
-                    System.out.println("\n --- Nro. Historia Clinica: " 
-                            + p.getHistoriaClinica().getNroHistoria()
+                if (pacienteService.getHistoriaClinica().obtenerPorId(p.getId())!= null) {
+                    HistoriaClinica historiaClinica = pacienteService.getHistoriaClinica().obtenerPorId(p.getId());
+                    System.out.println("--- Nro. Historia Clinica: " 
+                            + historiaClinica.getNroHistoria()
                             + "\n* Grupo sanguineo: " 
-                            + p.getHistoriaClinica().getGrupoSanguineo()
+                            + historiaClinica.getGrupoSanguineo()
                             + "\n* Antecedentes: " 
-                            + p.getHistoriaClinica().getAntecedentes()
+                            + historiaClinica.getAntecedentes()
                             + "\n* Medicacion actual: "
-                            + p.getHistoriaClinica().getMedicacionActual()
+                            + historiaClinica.getMedicacionActual()
                             + "\n* Observaciones: "
-                            + p.getHistoriaClinica().getObservaciones());
+                            + historiaClinica.getObservaciones());
                 }
         } catch (Exception e) {
             System.err.println("Error al listar paciente: " + e.getMessage());
@@ -384,7 +394,12 @@ public class MenuHandler {
             }
                     
             HistoriaClinica h = historiaClinicaService.obtenerPorId(id_long);
-                        
+            
+            if (h == null) {
+                System.out.println("Historial no encontrado.");
+                return;
+            }
+           
             System.out.println("\n --- Nro. Historia Clinica: " 
                     + h.getNroHistoria()
                     + "\n* Grupo sanguineo: " 
@@ -412,6 +427,9 @@ public class MenuHandler {
                 return;
             }
             
+            HistoriaClinica h = pacienteService.getHistoriaClinica().obtenerPorId(p.getId());
+            p.setHistoriaClinica(h);
+            
             actualizarHistorialDelPaciente(p);
 
             System.out.println("Historial actualizado exitosamente.");
@@ -428,34 +446,36 @@ public class MenuHandler {
      * 
      */
     private void actualizarHistorialDelPaciente(Paciente p) throws Exception {
-        if (pacienteService.getHistoriaClinica().obtenerPorId(p.getId())!= null) {
+        if (p.getHistoriaClinica()!= null) {
             System.out.print("¿Desea actualizar la Historia Clinica del paciente? (s/n): ");
             if (sc.nextLine().equalsIgnoreCase("s")) {
                 
-                System.out.print("Nuevo Grupo Sanguineo (" + p.getHistoriaClinica().getGrupoSanguineo() + "): ");
+                HistoriaClinica historiaClinica = p.getHistoriaClinica();
+                
+                System.out.print("Nuevo Grupo Sanguineo (" + historiaClinica.getGrupoSanguineo() + "): ");
                 System.out.print("Debe ingresarse: A+ / A- / B+ / B- / AB+ / AB- / O+ / O-\n");
                 String grupoSanguineo = sc.nextLine().trim();
                 if (!grupoSanguineo.isEmpty()) {
                     GrupoSanguineo grupoSang = GrupoSanguineo.convertir(grupoSanguineo);
-                    p.getHistoriaClinica().setGrupoSanguineo(grupoSang);
+                    historiaClinica.setGrupoSanguineo(grupoSang);
                 }
-                System.out.print("Nuevo antecedente (" + p.getHistoriaClinica().getAntecedentes()+ "): ");
+                System.out.print("Nuevo antecedente (" + historiaClinica.getAntecedentes()+ "): ");
                 String antecedente = sc.nextLine().trim();
                 if (!antecedente.isEmpty()) {
-                    p.getHistoriaClinica().setAntecedentes(antecedente);
+                    historiaClinica.setAntecedentes(antecedente);
                 }
-                System.out.print("Nueva Medicacion actual: (" + p.getHistoriaClinica().getMedicacionActual()+ "): ");
+                System.out.print("Nueva Medicacion actual: (" + historiaClinica.getMedicacionActual()+ "): ");
                 String medicacionActual = sc.nextLine().trim();
                 if (!medicacionActual.isEmpty()) {
-                    p.getHistoriaClinica().setMedicacionActual(medicacionActual);
+                    historiaClinica.setMedicacionActual(medicacionActual);
                 }
-                System.out.print("Nueva observacion: (" + p.getHistoriaClinica().getObservaciones()+ "): ");
+                System.out.print("Nueva observacion: (" + historiaClinica.getObservaciones()+ "): ");
                 String observacion = sc.nextLine().trim();
                 if (!observacion.isEmpty()) {
-                    p.getHistoriaClinica().setObservaciones(observacion);
+                    historiaClinica.setObservaciones(observacion);
                 }
               
-                pacienteService.getHistoriaClinica().actualizar(p.getHistoriaClinica());
+                pacienteService.getHistoriaClinica().actualizar(historiaClinica);
             }
         } else {
             System.out.print("El paciente no tiene Historia Clinica. ¿Desea agregar uno? (s/n): ");
