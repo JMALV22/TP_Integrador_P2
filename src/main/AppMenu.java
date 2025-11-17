@@ -25,11 +25,11 @@ public class AppMenu {
                 opcion = Integer.parseInt(sc.nextLine());
 
                 switch (opcion) {
-                    case 1 -> menuHandler.listarPersonas();
+                    case 1 -> menuHandler.listarPacientes();
                         
-                    case 2 -> menuHandler.listarPersonaPorDNI(); 
+                    case 2 -> menuHandler.listarPacientePorDNI();
                       
-                    case 3 -> menuHandler.listarPersonaPorID();
+                    case 3 -> menuHandler.listarPacientePorID();
                         
                     case 4 -> menuHandler.crearPaciente();
                     
