@@ -34,7 +34,7 @@ public class MenuHandler {
         this.sc = sc;
     }
     
-    public void listarPersonas() {
+    public void listarPacientes() {
         try {
             List<Paciente> pacientes;
             pacientes = pacienteService.obtenerTodos();
