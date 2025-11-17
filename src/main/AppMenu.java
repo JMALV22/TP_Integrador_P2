@@ -27,9 +27,9 @@ public class AppMenu {
                 switch (opcion) {
                     case 1 -> menuHandler.listarPacientes();
                         
-                    case 2 -> menuHandler.listarPersonaPorDNI(); 
+                    case 2 -> menuHandler.listarPacientePorDNI(); 
                       
-                    case 3 -> menuHandler.listarPersonaPorID();
+                    case 3 -> menuHandler.listarPacientePorID();
                         
                     case 4 -> menuHandler.crearPaciente();
                     

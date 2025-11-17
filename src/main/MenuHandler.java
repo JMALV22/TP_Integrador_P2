@@ -79,7 +79,7 @@ public class MenuHandler {
      * - Usa pacienteService.buscarPorDni(dni)
      *   y pacienteService.obtenerPorId(id_long)
      */
-    public void listarPersonaPorDNI() {
+    public void listarPacientePorDNI() {
         try {
             System.out.println("Ingrese el DNI del paciente a buesca:");
             String dni = sc.nextLine().trim();
@@ -114,7 +114,7 @@ public class MenuHandler {
         }
     }
     
-    public void listarPersonaPorID() {
+    public void listarPacientePorID() {
         try {
             System.out.println("Ingrese el ID del paciente a buscar:");
             Long id_long = null;
