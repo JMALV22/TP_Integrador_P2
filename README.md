@@ -2,14 +2,27 @@
 
 # Sistema de Gestión de Pacientes y Historias Clínicas
 
+#### Link al Informe y UML
+```
+https://drive.google.com/drive/folders/1wElYOGtvXzM55qFiiYm0Nm787G_7Z4Zz?usp=drive_link
+```
 
-## 👥 Estudiantes
+## 🎥 Video Explicativo
 
-- **Nombre:** Luciano Andrelo  
-- **Nombre:** Nicolás Azcuy
-- **Nombre:** Jose Matias Alvarez
-- **Nombre:** Jeremias Apiani
-- **Comisión:** M2025-17
+Video donde se describe el desarrollo del proyecto y cada capa de la arquitectura (Entities, DAO, Service y Menú).
+Se muestra el funcionamiento del sistema mediante una demostración de las operaciones principales: CRUD de Paciente e Historia Clínica, validaciones, manejo transaccional y la relación 1 -> 1
+
+**🔗 Link al video:** [https://www.youtube.com/watch?v=3ptHZCf4VLQ](https://youtu.be/-ehe6Gaplqo)
+
+---
+
+## 👥 Estudiantes  
+
+- **Luciano Andrelo**  
+- **Nicolás Azcuy**  
+- **José Matías Alvarez**  
+- **Jeremías Apiani**  
+- **Comisión:** M2025-17  
 
 ---
 
@@ -104,8 +117,5 @@ config.ProbarConexion
 main.AppMenu
 ```
 
-#### Link al Informe y UML
-```
-https://drive.google.com/drive/folders/1wElYOGtvXzM55qFiiYm0Nm787G_7Z4Zz?usp=drive_link
-```
+
 
